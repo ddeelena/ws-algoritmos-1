@@ -3,6 +3,20 @@ const mi_objeto = {
     edad:24,
     soltero: false
   };
+
+  const arreglo=[
+    {nombre:"Maria",apellido:"Lopez"},
+    {nombre:"Carlos",apellido:"Perez"},
+    {nombre:"santiago",apellido:"jaramillo"}
+  ]
+  let nombres=[];
+
+  for(let i=0; i<arreglo.length; i++){
+    nombres[i]=arreglo[i]["nombre"];
+  }
+  arreglo.forEach(objeto=>nombres.push(objeto.nombre));
+  let resultado=nombres.includes("Maria");
+
   //buscar una propiedad del objeto
   if('nombre' in mi_objeto){
     console.log("la propiedad nombre existe");
@@ -105,6 +119,7 @@ let students = [
   }
 
 ]
+//.map -reduce
 
 let desarrolladores = equipo.filter(miembro => miembro.posicion == "developer")
 console.log(desarrolladores);
@@ -122,19 +137,29 @@ console.log(`Oro ganador: ${oro}, ganador de plata: ${plata}, ganador de bronze:
 
 // "Oro ganador: Anna, Plata ganadora: Beth, Bronce ganador: Cara"
 
-let competidores = ["Anna", "Beth", "Cara", "David"];
+let competidores = ["Anna", "Beth", "Cara", "David","Juan Gerardo"];
+
+competidores.filter((competidor, indice, arreglo) => mostrarGanadores(competidor, indice, arreglo))
 
 function mostrarGanadores(nombre, indice, arreglo) {
-    let esSiguienteItem = indice + 1 < arreglo.length ? true : false;
-    if (esSiguienteItem) {
-    	console.log(`El ganador #${indice+1} es ${nombre}.`);
-    } else {
-    	console.log(`Perdón, ${nombre} no es uno de los ganadores.`);
-    }
+
+  let test;
+  if(indice+1<arreglo.length){
+  test=true;  
+  }
+  else{
+    test=false;
+  }
+
+  let esSiguienteItem = indice<3?true:false;
+ 
+ 
+  if (esSiguienteItem) {
+    console.log(`El ganador #${indice+1} es ${nombre}.`);
+  } else {
+    console.log(`Perdón, ${nombre} no es uno de los ganadores.`);
+  }
 }
-
-competidores.filter((nombre, indice, arreglo) => mostrarGanadores(nombre, indice, arreglo))
-
 /*
 "El ganador #1 es Anna."
 "El ganador #2 es Beth."
@@ -152,3 +177,98 @@ else{
   let nombre= prompt("ingrese nombre");
   localStorage.setItem("usuario",nombre);
 }
+
+/********OTROS EJEMPLOS ***********/
+
+
+let vengadores = [
+  {nombre: "steve rogers", nombreHeroe: "captain america"},
+  {nombre: "tony stark", nombreHeroe: "iron man"},
+  {nombre: "bruce banner", nombreHeroe: "the hulk"},
+  {nombre: "peter parker", nombreHeroe: "spiderman"},
+  {nombre: "tchalla", nombreHeroe: "black panther"}
+]
+//uso del forEach
+//recorremos el arrego e imprimimos el nombre del vengador
+console.log("****foreach*****")
+vengadores.forEach(vengador => {
+  console.log("nombre vengador "+  vengador.nombre);
+});
+
+//otro ejemplo forEach
+nombres = [
+  {nombre:"anna",pronombre: "ella"},
+  {nombre: "beth",pronombre: "elle"},
+  {nombre:"chris",pronombre: "él"},
+  {nombre: "daniel",pronombre: "él"},
+  {nombre: "ethan",pronombre: "él"}
+]
+console.log("****pasar lista****")
+function pasarLista(estudiante, indice) {
+  console.log(`El número de estudiante  ${indice + 1} ${estudiante.nombre}. Está ${estudiante.pronombre} presente? Sí!`);
+}
+
+nombres.forEach((nombre, indice) => pasarLista(nombre, indice));
+
+//uso del .map
+//recorremos el arreglo retornado por la función map (solo los nombres)
+console.log("****usando map****")
+
+nombresReales = vengadores.map(vengador => vengador.nombre);
+console.log(nombresReales);
+//otra forma:
+console.log("****otra forma map para mostrar nombre vengadores****")
+
+let obtenerNombre = vengador => vengador.nombre;
+nombresReales = vengadores.map(obtenerNombre);
+console.log(nombresReales);
+
+// uso del find
+console.log("*****uso del find******+")
+let perrosEncontrados = [{
+  breed: "Beagle",
+  color: "blanco"
+},
+
+{
+  raza: "Chihuahua",
+  color: "amarillo"
+},
+
+{
+  breed: "Pug",
+  color: "negro"
+},
+]
+
+function encuentraMiPerro(perro) {
+return perro.raza === "Chihuahua"
+}
+
+let miPerro = perrosEncontrados.find(perro => encuentraMiPerro(perro));
+
+console.log(miPerro);
+
+//un ejemplo más complejo
+let candidatos = [
+  {nombre: "aaron", añosDeExperiencia: 18, edad: 66},
+  {nombre: "beth", añosDeExperiencia:  0, edad: 18},
+  {nombre: "cara", añosDeExperiencia: 4, edad: 22},
+  {nombre: "daniel", añosDeExperiencia: 3, edad: 16},
+  {nombre: "ella", añosDeExperiencia: 5, edad: 25},
+  {nombre: "fin", añosDeExperiencia: 0, edad: 16},
+  {nombre: "george", añosDeExperiencia: 6, edad: 28},
+]
+
+let criterios = {
+experienciaMinima: 3,
+edadMinima: 18,
+edadMaxima: 65
+}
+
+ 
+let candidatoSuertudo = candidatos.find(function(candidato) {
+return candidato.añosDeExperiencia >= this.experienciaMinima && candidato.edad <= this.edadMaxima && candidato.edad >= this.edadMinima ;
+}, criterios);
+
+console.log(candidatoSuertudo);

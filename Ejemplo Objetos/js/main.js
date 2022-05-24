@@ -1,5 +1,11 @@
 window.onload=iniciarDatos;
-var personas=[];
+var personas;
+if(localStorage.getItem("personas")){
+    personas=JSON.parse(localStorage.getItem("personas"));
+}
+else{
+    personas=[];
+}
 
 function iniciarDatos(){
     const botonAgregar=document.getElementById("btnAgregar");
@@ -16,14 +22,59 @@ const direccion= document.getElementById("direccion").value;
 
    let persona={
         "nombre":nombre,
-        "apellido":apellido
+        "apellido":apellido,
+        "telefono":telefono
     }
     personas.push(persona);
-    localStorage.personas=JSON.stringify(personas);
+    localStorage.setItem("personas",JSON.stringify(personas));
 }
 
 function mostrar(){
-    console.log(localStorage.getItem("personas"));
-    var estudiantes1=JSON.parse(localStorage.personas);
-    document.getElementById("mostrar").innerHTML=JSON.stringify(estudiantes1);
+    let personasArreglo=JSON.parse(localStorage.getItem("personas"));
+    console.log(personasArreglo);
+    personasArreglo.forEach(persona => {
+        document.getElementById("mostrar").innerHTML+=persona.nombre+"<br>";    
+    });
+    localStorage
 }  
+// otros modos de usar objetos
+const camilo = {
+    nombre: 'Camilo',
+    edad: 22,
+    sexo: 'masculino',
+    pasatiempos: ['jugar futbol', 'escuchar musica'],
+    hablar: function(){
+      return `hola soy ${this.nombre}, y tengo ${this.edad} años`;
+    }
+  }
+  
+  const andrea = {
+    nombre: 'Andrea',
+    edad: 22,
+    sexo: 'femenino',
+    pasatiempos: ['patinar', 'bailar'],
+    hablar: function(){
+      return `hola soy ${this.nombre}, y tengo ${this.edad} años`;
+    }
+  }
+  console.log(camilo);
+  console.log(andrea);
+
+  // pero y si deseo crear muchas personas....
+
+  //otro enfoque:
+
+  function Persona(nombre,edad,sexo,pasatiempos){
+      this.nombre=nombre;
+      this.edad=edad;
+      this.sexo=sexo;
+      this.pasatiempos=pasatiempos;
+  }
+
+//ahora vamos a crear 3 pesonas
+
+let alejandra=new Persona("Alejandra",22,"femenino",["cantar","jugar"],function(){
+    return `hola soy ${this.nombre}, y tengo ${this.edad} años`;
+});
+
+console.log(alejandra);
