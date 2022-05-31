@@ -21,9 +21,9 @@ const telefono= document.getElementById("telefono").value;
 const direccion= document.getElementById("direccion").value;
 
    let persona={
-        "nombre":nombre,
-        "apellido":apellido,
-        "telefono":telefono
+        nombre:nombre,
+        apellido:apellido,
+        telefono:telefono
     }
     personas.push(persona);
     localStorage.setItem("personas",JSON.stringify(personas));
@@ -51,24 +51,33 @@ const camilo = {
   const andrea = {
     nombre: 'Andrea',
     edad: 22,
-    sexo: 'femenino',
+    sexo: "femenino",
     pasatiempos: ['patinar', 'bailar'],
     hablar: function(){
-      return `hola soy ${this.nombre}, y tengo ${this.edad} años`;
+      return `hola soy ${this.nombre}, 
+      y tengo ${this.edad} años`;
     }
   }
+  let saludoAndrea=andrea.hablar();
+  console.log(saludoAndrea);
   console.log(camilo);
   console.log(andrea);
 
-  // pero y si deseo crear muchas personas....
+  //pero y si deseo crear muchas personas....
 
   //otro enfoque:
 
-  function Persona(nombre,edad,sexo,pasatiempos){
+  function Persona(nombre,edad,sexo,pasatiempos,accion){
       this.nombre=nombre;
-      this.edad=edad;
-      this.sexo=sexo;
+      this.edad=edad>18?edad:"eres menor de edad";
+      if(sexo=="masculino"){
+        this.sexo="m";
+      }
+      else{
+          this.sexo="f";
+      }
       this.pasatiempos=pasatiempos;
+      this.accion=accion;
   }
 
 //ahora vamos a crear 3 pesonas
@@ -78,3 +87,6 @@ let alejandra=new Persona("Alejandra",22,"femenino",["cantar","jugar"],function(
 });
 
 console.log(alejandra);
+
+let samuel= new Persona("Samuel",17,"masculino","crear musica");
+console.log(samuel);

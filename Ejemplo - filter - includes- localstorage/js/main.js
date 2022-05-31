@@ -182,12 +182,13 @@ else{
 
 
 let vengadores = [
-  {nombre: "steve rogers", nombreHeroe: "captain america"},
-  {nombre: "tony stark", nombreHeroe: "iron man"},
-  {nombre: "bruce banner", nombreHeroe: "the hulk"},
-  {nombre: "peter parker", nombreHeroe: "spiderman"},
-  {nombre: "tchalla", nombreHeroe: "black panther"}
-]
+  {nombre: "steve rogers", nombreHeroe: "captain america",salario:10000},
+  {nombre: "tony stark", nombreHeroe: "iron man",salario:20000},
+  {nombre: "bruce banner", nombreHeroe: "the hulk",salario:30000},
+  {nombre: "peter parker", nombreHeroe: "spiderman",salario:40000},
+  {nombre: "tchalla", nombreHeroe: "black panther",salario:50000}
+];
+
 //uso del forEach
 //recorremos el arrego e imprimimos el nombre del vengador
 console.log("****foreach*****")
@@ -204,29 +205,41 @@ nombres = [
   {nombre: "ethan",pronombre: "él"}
 ]
 console.log("****pasar lista****")
-function pasarLista(estudiante, indice) {
-  console.log(`El número de estudiante  ${indice + 1} ${estudiante.nombre}. Está ${estudiante.pronombre} presente? Sí!`);
-}
 
+let nombreFemenino=[];
+let nombreMasculino=[];
+
+function pasarLista(estudiante, indice) {
+  console.log(estudiante);
+    if(estudiante.pronombre=="ella"){
+      nombreFemenino.push(estudiante.nombre);
+      console.log(`El número de estudiante  ${indice + 1} ${estudiante.nombre}. Está ${estudiante.pronombre} presente? Sí!`);
+    }
+    else{
+      nombreMasculino.push(estudiante.nombre);
+    }  
+}
 nombres.forEach((nombre, indice) => pasarLista(nombre, indice));
 
 //uso del .map
 //recorremos el arreglo retornado por la función map (solo los nombres)
-console.log("****usando map****")
+console.log("****usando map****");
 
-nombresReales = vengadores.map(vengador => vengador.nombre);
-console.log(nombresReales);
+let nuevosSalarios = vengadores.map(vengador => vengador.salario*2);
+console.log(nuevosSalarios);
+console.log(vengadores);
+
 //otra forma:
 console.log("****otra forma map para mostrar nombre vengadores****")
 
 let obtenerNombre = vengador => vengador.nombre;
-nombresReales = vengadores.map(obtenerNombre);
+let nombresReales = vengadores.map(obtenerNombre);
 console.log(nombresReales);
 
 // uso del find
 console.log("*****uso del find******+")
 let perrosEncontrados = [{
-  breed: "Beagle",
+  raza: "Chihuahua",
   color: "blanco"
 },
 
@@ -252,8 +265,8 @@ console.log(miPerro);
 //un ejemplo más complejo
 let candidatos = [
   {nombre: "aaron", añosDeExperiencia: 18, edad: 66},
-  {nombre: "beth", añosDeExperiencia:  0, edad: 18},
-  {nombre: "cara", añosDeExperiencia: 4, edad: 22},
+  {nombre: "beth", añosDeExperiencia:  11, edad: 18},
+  {nombre: "cara", añosDeExperiencia: 13, edad: 22},
   {nombre: "daniel", añosDeExperiencia: 3, edad: 16},
   {nombre: "ella", añosDeExperiencia: 5, edad: 25},
   {nombre: "fin", añosDeExperiencia: 0, edad: 16},
@@ -265,6 +278,12 @@ experienciaMinima: 3,
 edadMinima: 18,
 edadMaxima: 65
 }
+console.log("candidato elegido");
+let candidatoElegido= candidatos.find(candidato=>candidato.edad<50);
+console.log(candidatoElegido);
+
+let candidatosElegidos=candidatos.filter(candidato=>candidato.añosDeExperiencia>10);
+console.log(candidatosElegidos);
 
  
 let candidatoSuertudo = candidatos.find(function(candidato) {
@@ -272,3 +291,62 @@ return candidato.añosDeExperiencia >= this.experienciaMinima && candidato.edad 
 }, criterios);
 
 console.log(candidatoSuertudo);
+
+
+//REDUCE
+// esta función ejecuta una función sobre un arreglo y nos devuelve un único valor
+console.log("*****REDUCE******");
+const arrayReduce=[2,4,6,8,10];
+
+console.log(Math.max(2,3,4,5,30));
+
+console.log("max "+Math.max.apply(Math,arrayReduce));
+
+const resultadoReduce=arrayReduce.reduce((acum,item,index,arr)=>{ 
+  return acum=acum+item; //voy a sumar todos los valores del arreglo
+});
+console.log("la suma es "+resultadoReduce);
+const resultadoReduce2=arrayReduce.reduce((acum,item,index,arr)=>{ 
+  return acum=acum+item; //voy a sumar todos los valores del arreglo
+},10);// inicio acum en 10
+console.log("la suma inciando el acumulador en 10 es: "+resultadoReduce2);
+
+const cadenas= ["Mi","nombre", "es", "Monica"];
+console.log(cadenas.reduce((acc, item)=>{
+  return acc+=" "+item;
+}));
+
+// y ahora con objetos...
+// vamos a obtener la suma de los salarios de los vengadores
+
+const salarioTotal= vengadores.reduce((acum,vengador)=>{
+  return acum+=vengador.salario;
+},0);
+console.log("salario vengadores "+salarioTotal);
+
+const shots = [
+  {id: 1, amount: 2},
+  {id: 2, amount: 4},
+  {id: 3, amount: 52},
+  {id: 4, amount: 36},
+  {id: 5, amount: 13},
+  {id: 6, amount: 33}
+];
+
+// como podría obtener el monto mayor (sin usar clase Math)
+
+console.log(shots.reduce((acum,item)=>{
+  if(acum==0){
+    acum=item.amount;
+  }
+  else if(item.amount>acum)
+  {acum=item.amount;}
+  return acum;
+},0));
+
+
+let maximo=shots.reduce((acum,index)=> {return Math.max(acum,index.amount)},0);
+console.log("maximo "+maximo);
+
+const max=shots.reduce((acc, shot) => acc = acc > shot.amount ? acc : shot.amount, 0);
+console.log(max);
